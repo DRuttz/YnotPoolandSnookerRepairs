@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YNot Repairs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .active {
+      font-weight: bold;
+      text-decoration: underline;
+      color: #2563eb;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/components/footer.html')
+        .then(res => res.text())
+        .then(data => document.getElementById('footer').innerHTML = data);
+
+      function onScroll() {
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+        let current = "";
+        sections.forEach(section => {
+          const top = section.offsetTop - 80;
+          if (pageYOffset >= top) {
+            current = section.getAttribute("id");
+          }
+        });
+        navLinks.forEach(link => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === `#${current}`) {
+            link.classList.add("active");
+          }
+        });
+      }
+      window.addEventListener("scroll", onScroll);
+    });
+
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
+  <nav class="bg-white shadow sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="text-xl font-bold">YNot Repairs</div>
+        <div class="hidden md:flex items-center space-x-4">
+          <a href="#home" class="text-blue-600 hover:underline">Home</a>
+          <a href="#services" class="text-blue-600 hover:underline">Services</a>
+          <a href="#booking" class="text-blue-600 hover:underline">Booking</a>
+        </div>
+        <div class="md:hidden flex items-center">
+          <button onclick="toggleMenu()" class="text-blue-600 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2">
+      <a href="#home" class="block text-blue-600 hover:underline">Home</a>
+      <a href="#services" class="block text-blue-600 hover:underline">Services</a>
+      <a href="#booking" class="block text-blue-600 hover:underline">Booking</a>
+    </div>
+  </nav>
+
+  <main class="flex-grow">
+    <section id="home" class="text-center py-10 bg-white shadow-md">
+      <h1 class="text-4xl font-bold mb-2">Pool & Snooker Repairs</h1>
+      <p class="text-lg text-gray-600">Professional repair and restoration services for pool and snooker tables.</p>
+    </section>
+
+    <section id="services" class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50">
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-2xl font-semibold mb-2">Table Refelting</h2>
+        <p>Expert refelting using premium cloth for optimal play quality and durability.</p>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-2xl font-semibold mb-2">Leveling & Rebalancing</h2>
+        <p>Ensure your table is perfectly level and provides consistent gameplay.</p>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-2xl font-semibold mb-2">Cushion Replacement</h2>
+        <p>Replace worn or damaged cushions for precise ball bounce and response.</p>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-2xl font-semibold mb-2">General Maintenance</h2>
+        <p>Full checkups and servicing to keep your equipment in top condition.</p>
+      </div>
+    </section>
+
+    <section id="booking" class="p-6 bg-white mt-6">
+      <h2 class="text-3xl font-bold mb-4 text-center">Book a Repair</h2>
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="max-w-xl mx-auto space-y-4">
+        <input type="text" name="name" required placeholder="Your Name" class="w-full p-2 border rounded" />
+        <input type="email" name="email" required placeholder="Your Email" class="w-full p-2 border rounded" />
+        <input type="tel" name="phone" placeholder="Your Phone Number" class="w-full p-2 border rounded" />
+        <input type="date" name="date" required class="w-full p-2 border rounded" />
+        <select name="service" required class="w-full p-2 border rounded">
+          <option value="">Select Repair Type</option>
+          <option value="refelting">Table Refelting</option>
+          <option value="leveling">Leveling & Rebalancing</option>
+          <option value="cushion">Cushion Replacement</option>
+          <option value="maintenance">General Maintenance</option>
+        </select>
+        <textarea name="message" rows="4" placeholder="Additional Notes" class="w-full p-2 border rounded"></textarea>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Submit Request</button>
+      </form>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+</body>
+</html>
